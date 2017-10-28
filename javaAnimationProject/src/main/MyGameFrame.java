@@ -64,7 +64,9 @@ public class MyGameFrame extends GameFrame{
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
+
+		spongeBob.play();
+		spongeBob.update();
 	}
 
 	@Override
