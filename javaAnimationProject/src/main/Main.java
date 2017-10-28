@@ -13,5 +13,7 @@ public class Main {
 		
 		GameFrame gf = new MyGameFrame("Sponge-Anime", 650, 650);
 		gf.initGameWindow();
+		
+		//komentar
 	}
 }
