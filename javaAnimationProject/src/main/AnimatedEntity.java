@@ -79,5 +79,6 @@ public class AnimatedEntity
 	{
 		posX += movX;
 		posY += movY;
+		if(posX > 800) posX = -100;
 	}
 }

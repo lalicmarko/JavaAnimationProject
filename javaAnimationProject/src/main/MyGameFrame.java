@@ -66,6 +66,7 @@ public class MyGameFrame extends GameFrame{
 		// TODO Auto-generated method stub
 
 		spongeBob.play();
+		spongeBob.move(5,0);
 		spongeBob.update();
 	}
 
