@@ -35,7 +35,7 @@ public class MyGameFrame extends GameFrame{
 		bobSheet.setOffsets(100, 100);
 		spongeBob = new AnimatedEntity(bobSheet, sizeX/2, sizeY/2 + 150);
 		
-		setUpdateRate(60);
+		setUpdateRate(10);
 		
 		startThread();
 		
