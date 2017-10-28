@@ -9,20 +9,34 @@ import javax.swing.JFrame;
 import rafgfxlib.GameFrame;
 import rafgfxlib.Util;
 
-public class MyGameFrame extends GameFrame{
-	private BufferedImage imgIcon = null;
-	private BufferedImage imgBob = null;
-	
 
+public class MyGameFrame extends GameFrame{
+	
+	private BufferedImage imgIcon = null;
+	private BufferedImage backround1 = null;
+	private BufferedImage backround2 = null;
+	private BufferedImage backround3 = null; 
+	
+	private SpriteSheet bobSheet;
+	private AnimatedEntity spongeBob;
+	
 	
 	public MyGameFrame(String title, int sizeX, int sizeY) {
 		super(title, sizeX, sizeY);
 		setHighQuality(true);
 		
 		imgIcon = Util.loadImage("/res/sponge.png");
+		backround1 = Util.loadImage("/res/krusty krabs.png");
+		backround2 = Util.loadImage("/res/kitchenKrusty.jpg");
+		backround3 = Util.loadImage("/res/bikini bottom.jpg");
 		
-	
+		
+		bobSheet = new SpriteSheet("/res/spongeSpriteDemo.png", 5, 1);
+		bobSheet.setOffsets(100, 100);
+		spongeBob = new AnimatedEntity(bobSheet, sizeX/2, sizeY/2 + 150);
+		
 		setUpdateRate(60);
+		
 		startThread();
 		
 	}
@@ -42,8 +56,9 @@ public class MyGameFrame extends GameFrame{
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
 		// TODO Auto-generated method stub
-//		imgBob = Util.loadImage("/red/spongebobSmall.png");
-		g.drawImage(imgIcon, 0, 0, null);
+		g.drawImage(backround3,0,0,null);
+		spongeBob.draw(g);
+//		g.drawImage(imgIcon, 0, 0, null);
 	}
 
 	@Override
