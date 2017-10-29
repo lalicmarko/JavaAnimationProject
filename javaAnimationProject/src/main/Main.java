@@ -11,9 +11,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		GameFrame gf = new MyGameFrame("Sponge-Anime", 650, 650);
+		GameFrame gf = new MyGameFrame("Sponge-Anime", 650, 650, 100);
 		gf.initGameWindow();
 		
-		//test
 	}
 }

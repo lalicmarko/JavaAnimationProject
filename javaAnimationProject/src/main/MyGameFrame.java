@@ -21,7 +21,7 @@ public class MyGameFrame extends GameFrame{
 	private AnimatedEntity spongeBob;
 	
 	
-	public MyGameFrame(String title, int sizeX, int sizeY) {
+	public MyGameFrame(String title, int sizeX, int sizeY, int updateRate) {
 		super(title, sizeX, sizeY);
 		setHighQuality(true);
 		
@@ -31,11 +31,12 @@ public class MyGameFrame extends GameFrame{
 		backround3 = Util.loadImage("/res/bikini bottom.jpg");
 		
 		
-		bobSheet = new SpriteSheet("/res/spongeSpriteDemo.png", 5, 1);
+		bobSheet = new SpriteSheet("/res/bobSaPozadinom.jpg", 5, 1);
 		bobSheet.setOffsets(100, 100);
+		bobSheet.doNegative();
 		spongeBob = new AnimatedEntity(bobSheet, sizeX/2, sizeY/2 + 150);
 		
-		setUpdateRate(10);
+		setUpdateRate(updateRate);
 		
 		startThread();
 		
@@ -44,7 +45,6 @@ public class MyGameFrame extends GameFrame{
 	@Override
 	public void handleWindowInit() {
 		setIcon(imgIcon);
-		
 	}
 
 	@Override
