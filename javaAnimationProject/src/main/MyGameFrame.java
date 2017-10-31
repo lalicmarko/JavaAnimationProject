@@ -74,10 +74,11 @@ public class MyGameFrame extends GameFrame {
 			
 			if(kp.posX >= spongeBob.getPositionX() - 150 &&
 				kp.posX < spongeBob.getPositionX() + 50) {
-				if(kp.posY >= spongeBob.getPositionY() - 100) {
-					kp.setAlive(false);
+				if(kp.posY >= spongeBob.getPositionY() - 100 &&
+					kp.posY < spongeBob.getPositionY() + 200) {
+					kp.setDead();
 //					pljeskavice.remove(kp.getId());
-					score++;
+					score = KrabbyPatty.getScore();
 
 				}
 			}
