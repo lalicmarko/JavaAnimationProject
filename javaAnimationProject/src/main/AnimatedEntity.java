@@ -84,4 +84,7 @@ public class AnimatedEntity
 		posY += movY;
 		if(posX > 800) posX = -100;
 	}
+	public SpriteSheet getMySheet() {
+		return mySheet;
+	}
 }
