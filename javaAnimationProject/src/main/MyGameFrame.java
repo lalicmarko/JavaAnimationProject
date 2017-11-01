@@ -46,7 +46,7 @@ public class MyGameFrame extends GameFrame {
 		backround2 = Util.loadImage("/res/kitchenKrusty.jpg");
 		backround3 = Util.loadImage("/res/bikini bottom.jpg");
 		
-		bobSheet = new SpriteSheet("/res/spongeSpriteDemo.png", 10, 2);
+		bobSheet = new SpriteSheet("/res/spongeSpriteDemo.png", 10, 1);
 		bobSheet.setOffsets(300, 55);
 
 		spongeBob = new AnimatedEntity(bobSheet, sizeX / 2 , sizeY / 2 + 200);
@@ -83,11 +83,12 @@ public class MyGameFrame extends GameFrame {
 			if(kp.isAlive())
 			g.drawImage(pljeskavice.get(kp.getId()).img, transform, null);
 			
-			if(kp.posX >= spongeBob.getPositionX() - 150 && kp.posX < spongeBob.getPositionX() + 50) {
+			if(kp.posX >= spongeBob.getPositionX()-300 && kp.posX < spongeBob.getPositionX()-150) {
 				if(kp.posY >= spongeBob.getPositionY() - 100 && kp.posY < spongeBob.getPositionY() + 200) {
 					if(kp.isAlive()){
 						kp.setDead();
-						System.out.println("Pljeske pljeskeeeee");
+						System.out.println("Pojeo sam pljesku na x="+kp.posX);
+						System.out.println("a nalazim se na x="+spongeBob.getPositionX());
 					}
 					score = KrabbyPatty.getScore();
 				}
@@ -110,7 +111,7 @@ public class MyGameFrame extends GameFrame {
 		
 		spongeBob.update();
 		
-		if(Math.random() < 0.05) {
+		if(Math.random() < 0.02) {
 			KrabbyPatty kp = new KrabbyPatty();
 			kp.setId(index);
 			kp.setPosY(0);
