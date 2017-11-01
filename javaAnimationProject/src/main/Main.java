@@ -17,6 +17,7 @@ public class Main {
 		 * @int height
 		 * @int updateRate
 		 */
+		
 		GameFrame gf = new MyGameFrame("Sponge-Anime", 650, 650, 30);
 
 		gf.initGameWindow();

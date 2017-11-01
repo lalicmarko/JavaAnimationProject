@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -9,9 +10,11 @@ import rafgfxlib.GameFrame;
 import rafgfxlib.Util;
 
 public class MyGameFrame extends GameFrame {
+	
 	private int index = 0;
 	private int score = 0;
 	private int sizeX,sizeY;
+	
 	private BufferedImage imgIcon = null;
 	private BufferedImage backround1 = null;
 	private BufferedImage backround2 = null;
@@ -23,8 +26,14 @@ public class MyGameFrame extends GameFrame {
 
 	private SpriteSheet bobSheet;
 	private AnimatedEntity spongeBob;
+	
+	private static final int ANIM_LEFT = 1;
+	private static final int ANIM_RIGHT = 0;
+	
+	private static final int SPEED = 5;
 
 	public MyGameFrame(String title, int sizeX, int sizeY, int updateRate) {
+		
 		super(title, sizeX, sizeY);
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
@@ -37,8 +46,8 @@ public class MyGameFrame extends GameFrame {
 		backround2 = Util.loadImage("/res/kitchenKrusty.jpg");
 		backround3 = Util.loadImage("/res/bikini bottom.jpg");
 		
-		bobSheet = new SpriteSheet("/res/spongeSpriteDemo.png", 10, 1);
-		bobSheet.setOffsets(100, 55);
+		bobSheet = new SpriteSheet("/res/spongeSpriteDemo.png", 10, 2);
+		bobSheet.setOffsets(300, 55);
 
 		spongeBob = new AnimatedEntity(bobSheet, sizeX / 2 , sizeY / 2 + 200);
 		
@@ -61,9 +70,11 @@ public class MyGameFrame extends GameFrame {
 
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
+		
 		AffineTransform transform = new AffineTransform();
 		
 		g.drawImage(backround1, 0, 0, null);
+		
 		spongeBob.draw(g);
 		
 		for(KrabbyPatty kp : pljeskavice) {
@@ -88,8 +99,15 @@ public class MyGameFrame extends GameFrame {
 	@Override
 	public void update() {
 
-		spongeBob.play();
-		spongeBob.move(5, 0);
+//		spongeBob.play();
+//		spongeBob.move(5, 0);
+//		spongeBob.update();
+		
+		if(isKeyDown(KeyEvent.VK_LEFT))
+			spongeBob.move(-SPEED, 0);
+		else if(isKeyDown(KeyEvent.VK_RIGHT))
+			spongeBob.move(SPEED, 0);
+		
 		spongeBob.update();
 		
 		if(Math.random() < 0.05) {
@@ -128,13 +146,28 @@ public class MyGameFrame extends GameFrame {
 
 	@Override
 	public void handleKeyDown(int keyCode) {
-		// TODO Auto-generated method stub
+		
+		if(keyCode == KeyEvent.VK_LEFT)
+		{
+			spongeBob.setAnimation(ANIM_LEFT);
+			spongeBob.play();
+		}
+		else if(keyCode == KeyEvent.VK_RIGHT)
+		{
+			spongeBob.setAnimation(ANIM_RIGHT);
+			spongeBob.play();
+		}
 
 	}
 
 	@Override
 	public void handleKeyUp(int keyCode) {
-		// TODO Auto-generated method stub
+		
+		if(keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT)
+		{
+			spongeBob.stop();
+			spongeBob.setFrame(5);
+		}
 
 	}
 
