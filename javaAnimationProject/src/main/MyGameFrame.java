@@ -23,14 +23,14 @@ public class MyGameFrame extends GameFrame {
 	private ArrayList<KrabbyPatty> pljeskavice = new ArrayList<KrabbyPatty>();
 	
 	private int skor = 0;
-	//test komit
+	
 	private SpriteSheet bobSheet;
 	private AnimatedEntity spongeBob;
 	
 	private static final int ANIM_LEFT = 1;
 	private static final int ANIM_RIGHT = 0;
 	
-	private static final int SPEED = 5;
+	private static final int SPEED = 6;
 
 	public MyGameFrame(String title, int sizeX, int sizeY, int updateRate) {
 		
