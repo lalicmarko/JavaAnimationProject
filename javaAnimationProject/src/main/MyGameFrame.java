@@ -37,10 +37,10 @@ public class MyGameFrame extends GameFrame {
 		backround2 = Util.loadImage("/res/kitchenKrusty.jpg");
 		backround3 = Util.loadImage("/res/bikini bottom.jpg");
 		
-		bobSheet = new SpriteSheet("/res/spongeSpriteDemo.png", 5, 1);
-		bobSheet.setOffsets(100, 100);
+		bobSheet = new SpriteSheet("/res/spongeSpriteDemo.png", 10, 1);
+		bobSheet.setOffsets(100, 55);
 
-		spongeBob = new AnimatedEntity(bobSheet, sizeX / 2, sizeY / 2 + 150);
+		spongeBob = new AnimatedEntity(bobSheet, sizeX / 2 , sizeY / 2 + 200);
 		
 		setUpdateRate(updateRate);
 		
@@ -63,7 +63,7 @@ public class MyGameFrame extends GameFrame {
 	public void render(Graphics2D g, int sw, int sh) {
 		AffineTransform transform = new AffineTransform();
 		
-		g.drawImage(backround3, 0, 0, null);
+		g.drawImage(backround1, 0, 0, null);
 		spongeBob.draw(g);
 		
 		for(KrabbyPatty kp : pljeskavice) {
@@ -72,18 +72,17 @@ public class MyGameFrame extends GameFrame {
 			if(kp.isAlive())
 			g.drawImage(pljeskavice.get(kp.getId()).img, transform, null);
 			
-			if(kp.posX >= spongeBob.getPositionX() - 150 &&
-				kp.posX < spongeBob.getPositionX() + 50) {
-				if(kp.posY >= spongeBob.getPositionY() - 100 &&
-					kp.posY < spongeBob.getPositionY() + 200) {
-					kp.setDead();
-//					pljeskavice.remove(kp.getId());
+			if(kp.posX >= spongeBob.getPositionX() - 150 && kp.posX < spongeBob.getPositionX() + 50) {
+				if(kp.posY >= spongeBob.getPositionY() - 100 && kp.posY < spongeBob.getPositionY() + 200) {
+					if(kp.isAlive()){
+						kp.setDead();
+						System.out.println("Pljeske pljeskeeeee");
+					}
 					score = KrabbyPatty.getScore();
-
 				}
 			}
 		}
-		g.drawString("SCORE: - " + score, 20, 10);
+		g.drawString("SCORE: - [ " + score + " ]", 15, 20);
 	}
 
 	@Override
@@ -93,7 +92,7 @@ public class MyGameFrame extends GameFrame {
 		spongeBob.move(5, 0);
 		spongeBob.update();
 		
-		if(Math.random() < 0.06) {
+		if(Math.random() < 0.05) {
 			KrabbyPatty kp = new KrabbyPatty();
 			kp.setId(index);
 			kp.setPosY(0);

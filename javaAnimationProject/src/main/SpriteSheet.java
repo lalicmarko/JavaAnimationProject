@@ -76,7 +76,7 @@ public class SpriteSheet {
 		for (int y = 0; y < sheet.getHeight(); y++) {
 			for (int x = 0; x < sheet.getWidth(); x++) {
 				try {
-					raster.getPixel(x, y, rgb);
+					this.raster.getPixel(x, y, rgb);
 //					System.out.println("ista");
 					
 						rgb[0] = 255 - rgb[0];
@@ -86,6 +86,7 @@ public class SpriteSheet {
 						target.setPixel(x, y, rgb);
 				} catch (Exception e) {
 //					System.out.println("bla");
+					e.printStackTrace();
 				}
 				
 			
