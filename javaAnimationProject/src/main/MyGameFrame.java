@@ -23,7 +23,7 @@ public class MyGameFrame extends GameFrame {
 	private ArrayList<KrabbyPatty> pljeskavice = new ArrayList<KrabbyPatty>();
 	
 	private int skor = 0;
-
+	//test komit
 	private SpriteSheet bobSheet;
 	private AnimatedEntity spongeBob;
 	
