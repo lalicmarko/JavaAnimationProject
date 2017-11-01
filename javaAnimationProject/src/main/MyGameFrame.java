@@ -46,7 +46,7 @@ public class MyGameFrame extends GameFrame {
 		backround2 = Util.loadImage("/res/kitchenKrusty.jpg");
 		backround3 = Util.loadImage("/res/bikini bottom.jpg");
 		
-		bobSheet = new SpriteSheet("/res/spongeSpriteDemo.png", 10, 1);
+		bobSheet = new SpriteSheet("/res/spongeSpriteDemo.png", 10, 2);
 		bobSheet.setOffsets(300, 55);
 
 
