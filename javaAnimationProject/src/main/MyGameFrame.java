@@ -49,6 +49,7 @@ public class MyGameFrame extends GameFrame {
 		bobSheet = new SpriteSheet("/res/spongeSpriteDemo.png", 10, 1);
 		bobSheet.setOffsets(300, 55);
 
+
 		spongeBob = new AnimatedEntity(bobSheet, sizeX / 2 , sizeY / 2 + 200);
 		
 		setUpdateRate(updateRate);
@@ -86,9 +87,10 @@ public class MyGameFrame extends GameFrame {
 			if(kp.posX >= spongeBob.getPositionX()-300 && kp.posX < spongeBob.getPositionX()-150) {
 				if(kp.posY >= spongeBob.getPositionY() - 100 && kp.posY < spongeBob.getPositionY() + 200) {
 					if(kp.isAlive()){
+						
 						kp.setDead();
-						System.out.println("Pojeo sam pljesku na x="+kp.posX);
-						System.out.println("a nalazim se na x="+spongeBob.getPositionX());
+//						System.out.println("Pojeo sam pljesku na x="+kp.posX);
+//						System.out.println("a nalazim se na x="+spongeBob.getPositionX());
 					}
 					score = KrabbyPatty.getScore();
 				}
@@ -99,10 +101,6 @@ public class MyGameFrame extends GameFrame {
 
 	@Override
 	public void update() {
-
-//		spongeBob.play();
-//		spongeBob.move(5, 0);
-//		spongeBob.update();
 		
 		if(isKeyDown(KeyEvent.VK_LEFT))
 			spongeBob.move(-SPEED, 0);

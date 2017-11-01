@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 
 import rafgfxlib.Util;

@@ -6,10 +6,9 @@ import java.awt.image.WritableRaster;
 
 import rafgfxlib.*;
 
-public class SpriteSheet {
+public class SpriteSheet implements ImageModifications {
 
 	private BufferedImage sheet;
-	private WritableRaster raster;
 	private int frameW, frameH;
 	private int sheetW, sheetH;
 	private int offsetX = 0, offsetY = 0;
@@ -17,7 +16,6 @@ public class SpriteSheet {
 	public SpriteSheet(String imageName, int columns, int rows) {
 
 		this.sheet = Util.loadImage(imageName);
-	//	this.raster = this.sheet.getRaster();
 		if (imageName == null) {
 			sheet = null;
 			System.out.println("Error loading sprite sheet!");
@@ -62,42 +60,6 @@ public class SpriteSheet {
 		offsetY = y;
 	}
 
-	/**
-	 * Kada je pozadina prazna, metoda getPixel() ne radi za pozadinu.| Da bi smo
-	 * resili taj problem, pozadina ce imati konkretnu vrednst u rgb-u npr:
-	 * 199,244,88 i konkretno za sve piksele sa tom bojom cemo setovati alfa kanal na 1.
-	 */
-//	public void doNegative() {
-//
-//		WritableRaster target = Util.createRaster(sheet.getWidth(), sheet.getHeight(), true);
-//		
-//		int rgb[] = new int[3];
-//		
-//		float opacity = 0.0f;
-//
-//		for (int y = 0; y < sheet.getHeight(); y++) {
-//			for (int x = 0; x < sheet.getWidth(); x++) {
-//				try {
-//					this.raster.getPixel(x, y, rgb);
-////					System.out.println("ista");
-//					
-//						rgb[0] = 255 - rgb[0];
-//						rgb[1] = 255 - rgb[1];
-//						rgb[2] = 255 - rgb[2];
-//					
-//						target.setPixel(x, y, rgb);
-//				} catch (Exception e) {
-////					System.out.println("bla");
-//					e.printStackTrace();
-//				}
-//				
-//			
-//			
-//			}
-//		}
-//		this.sheet = Util.rasterToImage(target);
-//	}
-
 	public void setOffsetX(int x) {
 		offsetX = x;
 	}
@@ -112,5 +74,72 @@ public class SpriteSheet {
 
 	public int getOffsetY() {
 		return offsetY;
+	}
+
+	@Override
+	public void doContrast() {
+		WritableRaster source = sheet.getRaster();
+		WritableRaster target = Util.createRaster(source.getWidth(), source.getHeight(), false);
+		int rgb[] = new int[4];
+		double contrast = 2;
+		for(int y = 0; y < source.getHeight(); y++){
+			for(int x = 0; x < source.getWidth(); x++){
+				source.getPixel(x, y, rgb);
+				 rgb[0] = 255 - rgb[0];
+				 rgb[1] = 255 - rgb[1];
+				 rgb[2] = 255 - rgb[2];
+				target.setPixel(x, y, rgb);
+			}
+		}
+		BufferedImage newImage = Util.rasterToImage(target);
+		this.sheet = newImage;
+	}
+	
+	public void doNegative() {
+		WritableRaster source = sheet.getRaster();
+		WritableRaster target = Util.createRaster(source.getWidth(), source.getHeight(), false);
+		int rgb[] = new int[4];
+		for(int y = 0; y < source.getHeight(); y++){
+			for(int x = 0; x < source.getWidth(); x++){
+				source.getPixel(x, y, rgb);
+				int i = (rgb[0] + rgb[1] + rgb[2]) / 3; // konvertovanje rgb u nijanse sive
+				rgb[0] = i;
+				rgb[1] = i;
+				rgb[2] = i;
+				target.setPixel(x, y, rgb);
+			}
+		}
+		BufferedImage newImage = Util.rasterToImage(target);
+		this.sheet = newImage;
+		
+	}
+	@Override
+	public void doGrayscale() {
+		WritableRaster source = sheet.getRaster();
+		WritableRaster target = Util.createRaster(source.getWidth(), source.getHeight(), false);
+		int rgb[] = new int[4];
+		for(int y = 0; y < source.getHeight(); y++){
+			for(int x = 0; x < source.getWidth(); x++){
+				source.getPixel(x, y, rgb);
+				int i = (rgb[0] + rgb[1] + rgb[2]) / 3; // konvertovanje rgb u nijanse sive
+				rgb[0] = i;
+				rgb[1] = i;
+				rgb[2] = i;
+				target.setPixel(x, y, rgb);
+			}
+		}
+		BufferedImage newImage = Util.rasterToImage(target);
+		this.sheet = newImage;
+	}
+	public static int clamp(int value, int min, int max)
+	{
+		if(value < min) return min;
+		if(value > max) return max;
+		return value;
+	}
+	
+	public static int saturate(int value)
+	{
+		return clamp(value, 0, 255);
 	}
 }
