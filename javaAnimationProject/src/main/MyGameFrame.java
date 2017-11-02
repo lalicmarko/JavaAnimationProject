@@ -89,8 +89,6 @@ public class MyGameFrame extends GameFrame {
 					if(kp.isAlive()){
 						kp.setDead();
 						System.out.println("Pojeo sam " + kp.getType());
-//						System.out.println("Pojeo sam pljesku na x="+kp.posX);
-//						System.out.println("a nalazim se na x="+spongeBob.getPositionX());
 					}
 					score = KrabbyPatty.getScore();
 				}
