@@ -18,6 +18,7 @@ public class KrabbyPatty implements ImageModifications {
 	public boolean alive;
 	public static int score = 0;
 	String type = "Normal";
+
 	public BufferedImage img = Util.loadImage("/res/patty.png");
 	
 	public KrabbyPatty() { 
@@ -26,16 +27,16 @@ public class KrabbyPatty implements ImageModifications {
 		if(random < 0.30) {
 			double randomType = Math.random();
 			if(randomType <= 0.33) {
-				System.out.println("Gray Patty spawned");
+				img = Util.loadImage("/res/bwPoint.png");
 				setType("Gray");
 			}
 			else if (randomType > 0.33 && randomType < 0.66 ) {
+				img = Util.loadImage("/res/negativePoint.png");
 				setType("Negative");
-				System.out.println("Negative Patty spawned");
 			}
 			else {
+				img = Util.loadImage("/res/contrastPoint.png");
 				setType("Contrast");
-				System.out.println("Contrast Patty spawned");
 			}
 		}
 	}
@@ -135,6 +136,11 @@ public class KrabbyPatty implements ImageModifications {
 		if(value < min) return min;
 		if(value > max) return max;
 		return value;
+	}
+	
+
+	public String getType() {
+		return type;
 	}
 	
 	public static int saturate(int value)

@@ -87,8 +87,8 @@ public class MyGameFrame extends GameFrame {
 			if(kp.posX >= spongeBob.getPositionX()-300 && kp.posX < spongeBob.getPositionX()-150) {
 				if(kp.posY >= spongeBob.getPositionY() - 100 && kp.posY < spongeBob.getPositionY() + 200) {
 					if(kp.isAlive()){
-						
 						kp.setDead();
+						System.out.println("Pojeo sam " + kp.getType());
 //						System.out.println("Pojeo sam pljesku na x="+kp.posX);
 //						System.out.println("a nalazim se na x="+spongeBob.getPositionX());
 					}
