@@ -6,6 +6,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import javax.swing.JToolBar;
+
 import rafgfxlib.GameFrame;
 import rafgfxlib.Util;
 
@@ -21,10 +23,11 @@ public class MyGameFrame extends GameFrame {
 	private BufferedImage backround3 = null;
 	
 	private ArrayList<KrabbyPatty> pljeskavice = new ArrayList<KrabbyPatty>();
-	
+	private ArrayList<PatrickSalvation> patricks = new ArrayList<PatrickSalvation>();
 	private int skor = 0;
 	
 	private SpriteSheet bobSheet;
+	private SpriteSheet backupSheet;
 	private AnimatedEntity spongeBob;
 	
 	private static final int ANIM_LEFT = 1;
@@ -38,7 +41,6 @@ public class MyGameFrame extends GameFrame {
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
 		setHighQuality(true);
-
 		
 		imgIcon = Util.loadImage("/res/bobIcon.png");
 		
@@ -48,7 +50,7 @@ public class MyGameFrame extends GameFrame {
 		
 		bobSheet = new SpriteSheet("/res/spongeSpriteDemo.png", 10, 2);
 		bobSheet.setOffsets(300, 55);
-
+		backupSheet = bobSheet;
 
 		spongeBob = new AnimatedEntity(bobSheet, sizeX / 2 , sizeY / 2 + 200);
 		
@@ -89,8 +91,25 @@ public class MyGameFrame extends GameFrame {
 					if(kp.isAlive()){
 						kp.setDead();
 						System.out.println("Pojeo sam " + kp.getType());
+						if(!kp.getType().equals("Normal")) {
+							if(kp.getType().equals("Contrast")) bobSheet.doContrast();
+							else if(kp.getType().equals("Gray")) bobSheet.doGrayscale();
+							else bobSheet.doNegative();
+							spongeBob.setMySheet(bobSheet);
+						}
 					}
 					score = KrabbyPatty.getScore();
+				}
+			}
+		}
+		for(PatrickSalvation p : patricks) {
+			transform.setToIdentity();
+//			transform.rotate(180);
+			transform.translate(p.posX, p.posY);
+			g.drawImage(patricks.get(p.getId()).img, transform, null);
+			if(p.posX >= spongeBob.getPositionX()-300 && p.posX < spongeBob.getPositionX()-150) {
+				if(p.posY >= spongeBob.getPositionY() - 100 && p.posY < spongeBob.getPositionY() + 200) {
+					spongeBob.setMySheet(backupSheet);
 				}
 			}
 		}
@@ -107,7 +126,7 @@ public class MyGameFrame extends GameFrame {
 		
 		spongeBob.update();
 		
-		if(Math.random() < 0.02) {
+		if(Math.random() < 0.04) {
 			KrabbyPatty kp = new KrabbyPatty();
 			kp.setId(index);
 			kp.setPosY(0);
@@ -116,7 +135,16 @@ public class MyGameFrame extends GameFrame {
 			pljeskavice.add(kp);
 			index++;
 		}
-		
+		if(Math.random() < 0.02) {
+			System.out.println("napravio sam patrika");
+			PatrickSalvation p = new PatrickSalvation();
+			p.setPosY(0);
+			double x = Math.random()*sizeX;
+			p.setPosX((float)x);
+		}
+		for(PatrickSalvation p : patricks) {
+			p.posY += 4;
+		}
 		for(KrabbyPatty kp : pljeskavice) {
 			kp.posY += 3;
 		}

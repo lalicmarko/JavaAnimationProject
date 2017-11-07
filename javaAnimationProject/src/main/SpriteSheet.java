@@ -79,15 +79,15 @@ public class SpriteSheet implements ImageModifications {
 	@Override
 	public void doContrast() {
 		WritableRaster source = sheet.getRaster();
-		WritableRaster target = Util.createRaster(source.getWidth(), source.getHeight(), false);
+		WritableRaster target = Util.createRaster(source.getWidth(), source.getHeight(), true);
 		int rgb[] = new int[4];
 		double contrast = 2;
 		for(int y = 0; y < source.getHeight(); y++){
 			for(int x = 0; x < source.getWidth(); x++){
 				source.getPixel(x, y, rgb);
-				 rgb[0] = 255 - rgb[0];
-				 rgb[1] = 255 - rgb[1];
-				 rgb[2] = 255 - rgb[2];
+				rgb[0] = saturate((int)((rgb[0] - 128) * contrast + 128));
+				rgb[1] = saturate((int)((rgb[1] - 128) * contrast + 128));
+				rgb[2] = saturate((int)((rgb[2] - 128) * contrast + 128));
 				target.setPixel(x, y, rgb);
 			}
 		}
@@ -97,15 +97,14 @@ public class SpriteSheet implements ImageModifications {
 	
 	public void doNegative() {
 		WritableRaster source = sheet.getRaster();
-		WritableRaster target = Util.createRaster(source.getWidth(), source.getHeight(), false);
+		WritableRaster target = Util.createRaster(source.getWidth(), source.getHeight(), true);
 		int rgb[] = new int[4];
 		for(int y = 0; y < source.getHeight(); y++){
 			for(int x = 0; x < source.getWidth(); x++){
 				source.getPixel(x, y, rgb);
-				int i = (rgb[0] + rgb[1] + rgb[2]) / 3; // konvertovanje rgb u nijanse sive
-				rgb[0] = i;
-				rgb[1] = i;
-				rgb[2] = i;
+				rgb[0] = 255 - rgb[0];
+				rgb[1] = 255 - rgb[1];
+				rgb[2] = 255 - rgb[2];		
 				target.setPixel(x, y, rgb);
 			}
 		}
@@ -116,7 +115,7 @@ public class SpriteSheet implements ImageModifications {
 	@Override
 	public void doGrayscale() {
 		WritableRaster source = sheet.getRaster();
-		WritableRaster target = Util.createRaster(source.getWidth(), source.getHeight(), false);
+		WritableRaster target = Util.createRaster(source.getWidth(), source.getHeight(), true);
 		int rgb[] = new int[4];
 		for(int y = 0; y < source.getHeight(); y++){
 			for(int x = 0; x < source.getWidth(); x++){

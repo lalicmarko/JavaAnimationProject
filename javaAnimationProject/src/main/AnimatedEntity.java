@@ -88,4 +88,9 @@ public class AnimatedEntity
 	public SpriteSheet getMySheet() {
 		return mySheet;
 	}
+	public void setMySheet(SpriteSheet mySheet) {
+		this.mySheet = mySheet;
+	}
+
+
 }
