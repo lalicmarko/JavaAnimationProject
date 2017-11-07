@@ -48,5 +48,8 @@ public class PatrickSalvation implements ImageModifications{
 	public void setPosY(float posY) {
 		this.posY = posY;
 	}
+	public void setId(int id) {
+		this.id = id;
+	}
 
 }

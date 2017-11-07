@@ -14,6 +14,7 @@ import rafgfxlib.Util;
 public class MyGameFrame extends GameFrame {
 	
 	private int index = 0;
+	private int indexP = 0;
 	private int score = 0;
 	private int sizeX,sizeY;
 	
@@ -95,7 +96,7 @@ public class MyGameFrame extends GameFrame {
 							if(kp.getType().equals("Contrast")) bobSheet.doContrast();
 							else if(kp.getType().equals("Gray")) bobSheet.doGrayscale();
 							else bobSheet.doNegative();
-							spongeBob.setMySheet(bobSheet);
+							spongeBob.setMySheet(backupSheet);
 						}
 					}
 					score = KrabbyPatty.getScore();
@@ -138,9 +139,12 @@ public class MyGameFrame extends GameFrame {
 		if(Math.random() < 0.02) {
 			System.out.println("napravio sam patrika");
 			PatrickSalvation p = new PatrickSalvation();
+			p.setId(indexP);
 			p.setPosY(0);
 			double x = Math.random()*sizeX;
 			p.setPosX((float)x);
+			patricks.add(p);
+			indexP++;
 		}
 		for(PatrickSalvation p : patricks) {
 			p.posY += 4;
