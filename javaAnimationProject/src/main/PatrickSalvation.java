@@ -8,6 +8,9 @@ public class PatrickSalvation implements ImageModifications{
 
 	public float posX;
 	public float posY;
+	public float rot = 0.0f;
+	public float angle = 0.0f;
+	public int type;
 	public int id = 0;
 	public boolean alive;
 	public BufferedImage img = Util.loadImage("/res/Patrick_Star.png");
@@ -50,6 +53,18 @@ public class PatrickSalvation implements ImageModifications{
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public float getRot() {
+		return rot;
+	}
+	public void setRot(float rot) {
+		this.rot = rot;
+	}
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
 	}
 
 }

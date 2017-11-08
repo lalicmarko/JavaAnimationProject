@@ -89,7 +89,6 @@ public class MyGameFrame extends GameFrame {
 				if(kp.posY >= spongeBob.getPositionY() - 100 && kp.posY < spongeBob.getPositionY() + 200) {
 					if(kp.isAlive()){
 						kp.setDead();
-						System.out.println("Pojeo sam " + kp.getType());
 						if(!kp.getType().equals("Normal")) {
 							if(kp.getType().equals("Contrast")) bobSheet.doContrast();
 							else if(kp.getType().equals("Gray")) bobSheet.doGrayscale();
@@ -104,10 +103,9 @@ public class MyGameFrame extends GameFrame {
 		}
 		for(PatrickSalvation p : patricks) {
 			transform.setToIdentity();
-			transform.rotate(Math.cos(-52));
-			transform.rotate(Math.cos(50));
-//			transform.rotate(Math.cos(180));
 			transform.translate(p.posX, p.posY);
+			transform.rotate(p.angle);
+			transform.translate(-180, -180);
 			g.drawImage(patricks.get(p.getId()).img, transform, null);
 			if(p.posX >= spongeBob.getPositionX()-300 && p.posX < spongeBob.getPositionX()-150) {
 				if(p.posY >= spongeBob.getPositionY() - 100 && p.posY < spongeBob.getPositionY() + 200) {
@@ -128,7 +126,7 @@ public class MyGameFrame extends GameFrame {
 		
 		spongeBob.update();
 		
-		if(Math.random() < 0.04) {
+		if(Math.random() < 0.015) {
 			KrabbyPatty kp = new KrabbyPatty();
 			kp.setId(index);
 			kp.setPosY(0);
@@ -137,17 +135,35 @@ public class MyGameFrame extends GameFrame {
 			pljeskavice.add(kp);
 			index++;
 		}
-		if(Math.random() < 0.02) {
+		if(Math.random() < 0.01) {
 			PatrickSalvation p = new PatrickSalvation();
+			p.angle = (float)(Math.random() * Math.PI * 2.0);
+			p.rot = (float)(Math.random() - 0.5) * 0.3f;
+			
+			if(Math.random() < 0.5){
+				p.setType(0);
+			}
+			else{
+				p.setType(1);
+			}
 			p.setId(indexP);
-			p.setPosY(0);
+			p.setPosY(-200);
 			double x = Math.random()*sizeX;
 			p.setPosX((float)x);
 			patricks.add(p);
 			indexP++;
 		}
 		for(PatrickSalvation p : patricks) {
-			p.posY += 4;
+			p.posY += 5;
+			if(p.getType() == 1){
+				p.angle += p.rot;
+				p.rot *= 0.99f;
+			}
+			else{
+				p.angle -= p.rot;
+				p.rot *= 0.99f;
+			}
+			
 		}
 		for(KrabbyPatty kp : pljeskavice) {
 			kp.posY += 3;
