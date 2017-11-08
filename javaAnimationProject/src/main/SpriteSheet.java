@@ -146,4 +146,23 @@ public class SpriteSheet implements ImageModifications {
 	{
 		return clamp(value, 0, 255);
 	}
+
+	@Override
+	public void doPosterize() {
+		WritableRaster source = sheet.getRaster();
+		WritableRaster target = Util.createRaster(source.getWidth(), source.getHeight(), true);
+		int rgb[] = new int[4];
+		for(int y = 0; y < source.getHeight(); y++){
+			for(int x = 0; x < source.getWidth(); x++){
+				source.getPixel(x, y, rgb);
+				rgb[0] = (rgb[0] / 50) * 50;
+				rgb[1] = (rgb[1] / 50) * 50;
+				rgb[2] = (rgb[2] / 50) * 50;
+				target.setPixel(x, y, rgb);
+			}
+		}
+		BufferedImage newImage = Util.rasterToImage(target);
+		this.sheet = newImage;
+		
+	}
 }

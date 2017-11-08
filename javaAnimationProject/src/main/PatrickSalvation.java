@@ -67,4 +67,10 @@ public class PatrickSalvation implements ImageModifications{
 		this.type = type;
 	}
 
+	@Override
+	public void doPosterize() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

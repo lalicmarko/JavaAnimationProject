@@ -100,7 +100,8 @@ public class MyGameFrame extends GameFrame {
 						if(!kp.getType().equals("Normal")) {
 							if(kp.getType().equals("Contrast")) bobSheet.doContrast();
 							else if(kp.getType().equals("Gray")) bobSheet.doGrayscale();
-							else bobSheet.doNegative();
+							else if(kp.getType().equals("Negative")) bobSheet.doNegative();
+							else bobSheet.doPosterize();
 						}else {
 							bobSheet.setBackup();
 						}

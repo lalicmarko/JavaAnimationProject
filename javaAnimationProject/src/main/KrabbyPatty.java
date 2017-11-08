@@ -7,7 +7,7 @@ import rafgfxlib.Util;
 /**
  * 
  * @author Demiurg
- * Types of KrabbyPatty: "Normal", "Gray", "Contrast", "Negative"
+ * Types of KrabbyPatty: "Normal", "Gray", "Contrast", "Negative", "Poster"
  *
  */
 public class KrabbyPatty implements ImageModifications {
@@ -26,18 +26,10 @@ public class KrabbyPatty implements ImageModifications {
 		double random = Math.random();
 		if(random < 0.30) {
 			double randomType = Math.random();
-			if(randomType <= 0.33) {
-//				img = Util.loadImage("/res/bwPoint.png");
-				setType("Gray");
-			}
-			else if (randomType > 0.33 && randomType < 0.66 ) {
-//				img = Util.loadImage("/res/negativePoint.png");
-				setType("Negative");
-			}
-			else {
-//				img = Util.loadImage("/res/contrastPoint.png");
-				setType("Contrast");
-			}
+			if(randomType < 0.25) 								{setType("Gray");}
+			else if (randomType >= 0.25 && randomType < 0.50 ) 	{setType("Negative");}
+			else if (randomType >= 0.50 && randomType < 0.75)	{setType("Contrast");}
+			else 												{setType("Poster");}
 		}
 	}
 	public void setPosX(float posX) {
@@ -65,16 +57,10 @@ public class KrabbyPatty implements ImageModifications {
 		return score;
 	}
 	public void setType(String type) {
-		if(type.equals("Gray")) {
-			this.type = "Gray";	
-			doGrayscale();
-		}else if(type.equals("Contrast")) {
-			this.type = "Contrast";
-			doContrast();
-		}else {
-			this.type = "Negative";
-			doNegative();
-		}
+		if		(type.equals("Gray")) 	{this.type = "Gray";doGrayscale();}
+		else if(type.equals("Contrast")){this.type = "Contrast";doContrast();}
+		else if(type.equals("Negative")){this.type = "Negative";doNegative();}
+		else							this.type = "Poster";doPosterize();
 	}
 	@Override
 	public void doContrast() {
@@ -141,5 +127,24 @@ public class KrabbyPatty implements ImageModifications {
 
 	public String getType() {
 		return type;
+	}
+	@Override
+	public void doPosterize() {
+		WritableRaster source = img.getRaster();
+		WritableRaster target = Util.createRaster(source.getWidth(), source.getHeight(), true);
+		int rgb[] = new int[4];
+		for(int y = 0; y < source.getHeight(); y++){
+			for(int x = 0; x < source.getWidth(); x++){
+					source.getPixel(x, y, rgb);
+						int i = (rgb[0] + rgb[1] + rgb[2]) / 3; // konvertovanje rgb u nijanse sive
+							rgb[0] = (rgb[0] / 60) * 50;
+							rgb[1] = (rgb[1] / 60) * 50;
+							rgb[2] = (rgb[2] / 60) * 50;
+				target.setPixel(x, y, rgb);
+			}
+		}
+		BufferedImage newImage = Util.rasterToImage(target);
+		this.img = newImage;
+		
 	}
 }
