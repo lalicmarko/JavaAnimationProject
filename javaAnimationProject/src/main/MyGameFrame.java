@@ -15,11 +15,15 @@ public class MyGameFrame extends GameFrame {
 	private int indexP = 0;
 	private int score = 0;
 	private int sizeX, sizeY;
+	private int startBackPosX = 0;
 	
 	private BufferedImage imgIcon = null;
 	private BufferedImage backround1 = null;
 	private BufferedImage backround2 = null;
 	private BufferedImage backround3 = null;
+	private BufferedImage back2 = null;
+	private int flag = 0;
+	private int flagCounter = 0;
 	
 	private ArrayList<KrabbyPatty> pljeskavice = new ArrayList<KrabbyPatty>();
 	private ArrayList<PatrickSalvation> patricks = new ArrayList<PatrickSalvation>();
@@ -46,7 +50,7 @@ public class MyGameFrame extends GameFrame {
 		backround1 = Util.loadImage("/res/krusty krabs.png");
 		backround2 = Util.loadImage("/res/kitchenKrusty.jpg");
 		backround3 = Util.loadImage("/res/bikini bottom.jpg");
-		
+		back2 = Util.loadImage("/res/back2.png");
 		bobSheet = new SpriteSheet("/res/spongeSpriteDemo.png", 10, 2);
 		bobSheet.setOffsets(300, 55);
 		backupSheet = bobSheet;
@@ -74,10 +78,14 @@ public class MyGameFrame extends GameFrame {
 	public void render(Graphics2D g, int sw, int sh) {
 		
 		AffineTransform transform = new AffineTransform();
-		
-		g.drawImage(backround1, 0, 0, null);
+		if(flag == 0)
+		g.drawImage(backround1, startBackPosX, 0, null);
+		else if(flag == 1) {
+			g.drawImage(back2,  startBackPosX, 0, null);
+		}
 		
 		spongeBob.draw(g);
+
 		
 		for(KrabbyPatty kp : pljeskavice) {
 			transform.setToIdentity();
@@ -118,24 +126,61 @@ public class MyGameFrame extends GameFrame {
 
 	@Override
 	public void update() {
+		/**
+		 * @param flagCounter - broji koliko ce frejmova biti namešten background sa nekim izmenjenim detaljima na primer :
+		 * znak krusty kraba je crveniji, zastavice imaju jači kontrast itd.
+		 * @param flag - sluzi kao flag kada da crta jednu a kada drugu pozadinu
+		 */
+		flagCounter++;
+		if(flagCounter >= 50 && flagCounter < 70) {
+			flag = 1;
+		}
+		if(flagCounter >= 70) {
+			flagCounter = 0;
+			flag = 0;
+		}
 		
-		if(isKeyDown(KeyEvent.VK_LEFT))
-			spongeBob.move(-SPEED, 0);
-		else if(isKeyDown(KeyEvent.VK_RIGHT))
-			spongeBob.move(SPEED, 0);
+		/**
+		 * kada dodje do leve ivice backgrounda, odnosno desnem sundjerova brzina postaje 0, dakle on se krece u mestu, da ne bi izasli iz okvira backgrounda.
+		 */
+		if(isKeyDown(KeyEvent.VK_LEFT)) {
+			if(spongeBob.getPositionX() < 330) spongeBob.move(0, 0);
+			else {
+				spongeBob.move(-SPEED, 0);
+				this.startBackPosX += 8;
+//				System.out.println("sponge x="+spongeBob.getPositionX()+", y="+spongeBob.getPositionY());
+			}
+		}
+		else if(isKeyDown(KeyEvent.VK_RIGHT)) {
+			if(spongeBob.getPositionX() > 750) spongeBob.move(0, 0);
+			else {
+				spongeBob.move(SPEED, 0);
+				this.startBackPosX -= 8;
+				System.out.println("sponge x="+spongeBob.getPositionX()+", y="+spongeBob.getPositionY());
+			}
+		}
 		
 		spongeBob.update();
-		
+		/**
+		 * U svakom frejmu pljeskavica ima 1,5% verovatnoce da se spawnuje na poziciji y = 0, x = random od sirine ekrana.
+		 * @class KrabbyPatty u svom konstruktoru dalje ima logiku za odredjivanje tipa pljeskavice:
+		 * @param "Normal" - bez efekata
+		 * @param "Contrast" - efekat doContrast()
+		 * @param "Negative" - efekat doNegative()
+		 * @param "Gray"  - efekat doGrayscale()
+		 * 
+		 * Na slican nacin se generise i patrik sa verovatnocom od 0.6% - izvini Patriče
+		 */
 		if(Math.random() < 0.015) {
 			KrabbyPatty kp = new KrabbyPatty();
 			kp.setId(index);
 			kp.setPosY(0);
-			double x = Math.random()*sizeX;
+			double x = Math.random()*(sizeX - 50) + 20 ;
 			kp.setPosX((float)x);
 			pljeskavice.add(kp);
 			index++;
 		}
-		if(Math.random() < 0.01) {
+		if(Math.random() < 0.006) {
 			PatrickSalvation p = new PatrickSalvation();
 			p.angle = (float)(Math.random() * Math.PI * 2.0);
 			p.rot = (float)(Math.random() - 0.5) * 0.3f;

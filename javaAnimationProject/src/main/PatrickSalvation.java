@@ -13,7 +13,7 @@ public class PatrickSalvation implements ImageModifications{
 	public int type;
 	public int id = 0;
 	public boolean alive;
-	public BufferedImage img = Util.loadImage("/res/Patrick_Star.png");
+	public BufferedImage img = Util.loadImage("/res/patrickStar.png");
 	
 	public PatrickSalvation() {
 		
