@@ -9,6 +9,7 @@ import rafgfxlib.*;
 public class SpriteSheet implements ImageModifications {
 
 	private BufferedImage sheet;
+	private BufferedImage backupSheet;
 	private int frameW, frameH;
 	private int sheetW, sheetH;
 	private int offsetX = 0, offsetY = 0;
@@ -16,6 +17,7 @@ public class SpriteSheet implements ImageModifications {
 	public SpriteSheet(String imageName, int columns, int rows) {
 
 		this.sheet = Util.loadImage(imageName);
+		backupSheet = sheet;
 		if (imageName == null) {
 			sheet = null;
 			System.out.println("Error loading sprite sheet!");
@@ -135,6 +137,9 @@ public class SpriteSheet implements ImageModifications {
 		if(value < min) return min;
 		if(value > max) return max;
 		return value;
+	}
+	public void setBackup() {
+		this.sheet = backupSheet;
 	}
 	
 	public static int saturate(int value)

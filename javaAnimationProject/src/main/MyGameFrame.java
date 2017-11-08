@@ -94,7 +94,8 @@ public class MyGameFrame extends GameFrame {
 							if(kp.getType().equals("Contrast")) bobSheet.doContrast();
 							else if(kp.getType().equals("Gray")) bobSheet.doGrayscale();
 							else bobSheet.doNegative();
-							spongeBob.setMySheet(backupSheet);
+						}else {
+							bobSheet.setBackup();
 						}
 					}
 					score = KrabbyPatty.getScore();
@@ -103,7 +104,9 @@ public class MyGameFrame extends GameFrame {
 		}
 		for(PatrickSalvation p : patricks) {
 			transform.setToIdentity();
-//			transform.rotate(180);
+			transform.rotate(Math.cos(-52));
+			transform.rotate(Math.cos(50));
+//			transform.rotate(Math.cos(180));
 			transform.translate(p.posX, p.posY);
 			g.drawImage(patricks.get(p.getId()).img, transform, null);
 			if(p.posX >= spongeBob.getPositionX()-300 && p.posX < spongeBob.getPositionX()-150) {
