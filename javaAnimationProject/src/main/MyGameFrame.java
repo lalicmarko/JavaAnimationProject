@@ -6,8 +6,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.JToolBar;
-
 import rafgfxlib.GameFrame;
 import rafgfxlib.Util;
 
@@ -16,7 +14,7 @@ public class MyGameFrame extends GameFrame {
 	private int index = 0;
 	private int indexP = 0;
 	private int score = 0;
-	private int sizeX,sizeY;
+	private int sizeX, sizeY;
 	
 	private BufferedImage imgIcon = null;
 	private BufferedImage backround1 = null;
@@ -137,7 +135,6 @@ public class MyGameFrame extends GameFrame {
 			index++;
 		}
 		if(Math.random() < 0.02) {
-			System.out.println("napravio sam patrika");
 			PatrickSalvation p = new PatrickSalvation();
 			p.setId(indexP);
 			p.setPosY(0);
