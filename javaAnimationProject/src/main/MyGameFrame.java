@@ -128,8 +128,8 @@ public class MyGameFrame extends GameFrame {
 	@Override
 	public void update() {
 		/**
-		 * @param flagCounter - broji koliko ce frejmova biti namešten background sa nekim izmenjenim detaljima na primer :
-		 * znak krusty kraba je crveniji, zastavice imaju jači kontrast itd.
+		 * @param flagCounter - broji koliko ce frejmova biti nameÅ¡ten background sa nekim izmenjenim detaljima na primer :
+		 * znak krusty kraba je crveniji, zastavice imaju jaÄ�i kontrast itd.
 		 * @param flag - sluzi kao flag kada da crta jednu a kada drugu pozadinu
 		 */
 		flagCounter++;
@@ -170,7 +170,7 @@ public class MyGameFrame extends GameFrame {
 		 * @param "Negative" - efekat doNegative()
 		 * @param "Gray"  - efekat doGrayscale()
 		 * 
-		 * Na slican nacin se generise i patrik sa verovatnocom od 0.6% - izvini Patriče
+		 * Na slican nacin se generise i patrik sa verovatnocom od 0.6% - izvini PatriÄ�e
 		 */
 		if(Math.random() < 0.015) {
 			KrabbyPatty kp = new KrabbyPatty();
