@@ -2,16 +2,21 @@ package main.buttons;
 
 import java.awt.image.BufferedImage;
 
-public class PlayButton extends ImageButton {
+import main.MyGameFrame;
+import rafgfxlib.GameFrame;
 
-	public PlayButton(BufferedImage image, BufferedImage hoverImage, int x1, int x2, int y1, int y2) {
+public class PlayButton extends ImageButton {
+	
+	MyGameFrame gf;
+
+	public PlayButton(BufferedImage image, BufferedImage hoverImage, int x1, int x2, int y1, int y2, MyGameFrame gf	) {
 		super(image, hoverImage, x1, x2, y1, y2);
-		// TODO Auto-generated constructor stub
+		this.gf = gf;
 	}
 	
 	@Override
 	public void buttonAction(){
-		
+		gf.setMenu(false);
 	}
 
 	
