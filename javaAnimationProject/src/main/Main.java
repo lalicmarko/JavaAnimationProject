@@ -19,7 +19,7 @@ public class Main {
 		 */
 		
 		GameFrame gf = new MyGameFrame("Sponge-Anime", 650, 650, 30);
-		GameFrame mf = new MainMenuFrame("Sponge-Menu", 650, 650);
+		GameFrame mf = new MainMenuFrame("Sponge-Menu", 650, 650, gf);
 
 		mf.initGameWindow();
 		
