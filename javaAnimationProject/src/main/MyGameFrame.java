@@ -106,7 +106,7 @@ public class MyGameFrame extends GameFrame {
 				if(kp.isAlive()) g.drawImage(pljeskavice.get(kp.getId()).img, transform, null);
 				
 				if(kp.posX >= spongeBob.getPositionX()-300 && kp.posX < spongeBob.getPositionX()-150) {
-					if(kp.posY >= spongeBob.getPositionY() - 100 && kp.posY < spongeBob.getPositionY() + 200) {
+					if(kp.posY >= spongeBob.getPositionY() - 50 && kp.posY < spongeBob.getPositionY() + 50) {
 						if(kp.isAlive()){
 							kp.setDead();
 							if(!kp.getType().equals("Normal")) {
@@ -127,10 +127,10 @@ public class MyGameFrame extends GameFrame {
 				transform.translate(p.posX, p.posY);
 				transform.rotate(p.angle);
 				transform.translate(-180, -180);
-				if(p.alive == true) g.drawImage(patricks.get(p.getId()).img, transform, null);
+				g.drawImage(patricks.get(p.getId()).img, transform, null);
 				
 				if(p.posX >= spongeBob.getPositionX()-300 && p.posX < spongeBob.getPositionX()-150) {
-					if(p.posY >= spongeBob.getPositionY() - 100 && p.posY < spongeBob.getPositionY() + 200) {
+					if(p.posY >= spongeBob.getPositionY() + 50 && p.posY < spongeBob.getPositionY() + 80) {
 						spongeBob.setMySheet(backupSheet);
 					}
 				}
@@ -182,7 +182,7 @@ public class MyGameFrame extends GameFrame {
 			else {
 				spongeBob.move(SPEED, 0);
 				this.startBackPosX -= 8;
-				System.out.println("sponge x="+spongeBob.getPositionX()+", y="+spongeBob.getPositionY());
+//				System.out.println("sponge x="+spongeBob.getPositionX()+", y="+spongeBob.getPositionY());
 			}
 		}
 		
@@ -197,7 +197,7 @@ public class MyGameFrame extends GameFrame {
 		 * 
 		 * Na slican nacin se generise i patrik sa verovatnocom od 0.6% - izvini Patriče
 		 */
-		if(Math.random() < 0.000) {
+		if(Math.random() < 0.020) {
 			KrabbyPatty kp = new KrabbyPatty();
 			kp.setId(indexKp);
 			kp.setPosY(0);
@@ -226,9 +226,9 @@ public class MyGameFrame extends GameFrame {
 		for(PatrickSalvation p : patricks) {
 			if(p.posY > sizeY) {
 				p.setDead();
-				patricks.remove(p.getId());
+//				patricks.remove(p.getId());
 			}
-			System.out.println(p.posX + "|"+  p.posY);
+//			System.out.println(p.posX + "|"+  p.posY);
 			p.posY += 3;
 			if(p.getType() == 1){
 				p.angle += p.rot;
