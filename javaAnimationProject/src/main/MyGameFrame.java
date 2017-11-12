@@ -5,17 +5,25 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.SimpleTimeZone;
 
 import rafgfxlib.GameFrame;
 import rafgfxlib.Util;
-
+/**
+ * Glavni frejm igrice. Cuva informacije o slikama, o listama objekata nad kojima primenjujemo modifikacije,
+ * o tome da li je igrica pocela ili itd.
+ * @author lalicmarko
+ *
+ */
 public class MyGameFrame extends GameFrame {
 	
-	private int index = 0;
+	private int indexKp = 0;
 	private int indexP = 0;
 	private int score = 0;
 	private int sizeX, sizeY;
 	private int startBackPosX = 0;
+	
+	private boolean startGame = false;
 	
 	private BufferedImage imgIcon = null;
 	private BufferedImage backround1 = null;
@@ -32,6 +40,8 @@ public class MyGameFrame extends GameFrame {
 	private SpriteSheet bobSheet;
 	private SpriteSheet backupSheet;
 	private AnimatedEntity spongeBob;
+	private BufferedImage startGame1;
+	private BufferedImage startGame2;
 	
 	private static final int ANIM_LEFT = 1;
 	private static final int ANIM_RIGHT = 0;
@@ -54,6 +64,9 @@ public class MyGameFrame extends GameFrame {
 		bobSheet = new SpriteSheet("/res/spongeSpriteDemo.png", 10, 2);
 		bobSheet.setOffsets(300, 55);
 		backupSheet = bobSheet;
+		
+		startGame1 = Util.loadImage("/res/startGame1.jpg");
+		startGame2 = Util.loadImage("/res/startGame2.jpg");
 
 		spongeBob = new AnimatedEntity(bobSheet, sizeX / 2 , sizeY / 2 + 200);
 		
@@ -76,53 +89,61 @@ public class MyGameFrame extends GameFrame {
 
 	@Override
 	public void render(Graphics2D g, int sw, int sh) {
-		
-		AffineTransform transform = new AffineTransform();
-		if(flag == 0)
-		g.drawImage(backround1, startBackPosX, 0, null);
-		else if(flag == 1) {
-			g.drawImage(back2,  startBackPosX, 0, null);
-		}
-		
-		spongeBob.draw(g);
-
-		
-		for(KrabbyPatty kp : pljeskavice) {
-			transform.setToIdentity();
-			transform.translate(kp.posX, kp.posY);
-			if(kp.isAlive())
-			g.drawImage(pljeskavice.get(kp.getId()).img, transform, null);
+		if(startGame) {
+			AffineTransform transform = new AffineTransform();
+			if(flag == 0)
+			g.drawImage(backround1, startBackPosX, 0, null);
+			else if(flag == 1) {
+				g.drawImage(back2,  startBackPosX, 0, null);
+			}
 			
-			if(kp.posX >= spongeBob.getPositionX()-300 && kp.posX < spongeBob.getPositionX()-150) {
-				if(kp.posY >= spongeBob.getPositionY() - 100 && kp.posY < spongeBob.getPositionY() + 200) {
-					if(kp.isAlive()){
-						kp.setDead();
-						if(!kp.getType().equals("Normal")) {
-							if(kp.getType().equals("Contrast")) bobSheet.doContrast();
-							else if(kp.getType().equals("Gray")) bobSheet.doGrayscale();
-							else if(kp.getType().equals("Negative")) bobSheet.doNegative();
-							else bobSheet.doPosterize();
-						}else {
-							bobSheet.setBackup();
+			spongeBob.draw(g);
+	
+			
+			for(KrabbyPatty kp : pljeskavice) {
+				transform.setToIdentity();
+				transform.translate(kp.posX, kp.posY);
+				if(kp.isAlive()) g.drawImage(pljeskavice.get(kp.getId()).img, transform, null);
+				
+				if(kp.posX >= spongeBob.getPositionX()-300 && kp.posX < spongeBob.getPositionX()-150) {
+					if(kp.posY >= spongeBob.getPositionY() - 100 && kp.posY < spongeBob.getPositionY() + 200) {
+						if(kp.isAlive()){
+							kp.setDead();
+							if(!kp.getType().equals("Normal")) {
+								if(kp.getType().equals("Contrast")) bobSheet.doContrast();
+								else if(kp.getType().equals("Gray")) bobSheet.doGrayscale();
+								else if(kp.getType().equals("Negative")) bobSheet.doNegative();
+								else bobSheet.doPosterize();
+							}else {
+								bobSheet.setBackup();
+							}
 						}
+						score = KrabbyPatty.getScore();
 					}
-					score = KrabbyPatty.getScore();
 				}
 			}
-		}
-		for(PatrickSalvation p : patricks) {
-			transform.setToIdentity();
-			transform.translate(p.posX, p.posY);
-			transform.rotate(p.angle);
-			transform.translate(-180, -180);
-			g.drawImage(patricks.get(p.getId()).img, transform, null);
-			if(p.posX >= spongeBob.getPositionX()-300 && p.posX < spongeBob.getPositionX()-150) {
-				if(p.posY >= spongeBob.getPositionY() - 100 && p.posY < spongeBob.getPositionY() + 200) {
-					spongeBob.setMySheet(backupSheet);
+			for(PatrickSalvation p : patricks) {
+				transform.setToIdentity();
+				transform.translate(p.posX, p.posY);
+				transform.rotate(p.angle);
+				transform.translate(-180, -180);
+				if(p.alive == true) g.drawImage(patricks.get(p.getId()).img, transform, null);
+				
+				if(p.posX >= spongeBob.getPositionX()-300 && p.posX < spongeBob.getPositionX()-150) {
+					if(p.posY >= spongeBob.getPositionY() - 100 && p.posY < spongeBob.getPositionY() + 200) {
+						spongeBob.setMySheet(backupSheet);
+					}
 				}
 			}
+			g.drawString("SCORE: - [ " + score + " ]", 15, 20);
 		}
-		g.drawString("SCORE: - [ " + score + " ]", 15, 20);
+		else {
+			if(flag == 0)
+				g.drawImage(startGame1, startBackPosX, 0, null);
+				else if(flag == 1) {
+					g.drawImage(startGame2,  startBackPosX, 0, null);
+				}
+		}
 	}
 
 	@Override
@@ -140,6 +161,10 @@ public class MyGameFrame extends GameFrame {
 			flagCounter = 0;
 			flag = 0;
 		}
+		/**
+		 * Ako je pritisnut startGame, izvrsava se glavna logika 
+		 */
+		if(startGame) {
 		
 		/**
 		 * kada dodje do leve ivice backgrounda, odnosno desnem sundjerova brzina postaje 0, dakle on se krece u mestu, da ne bi izasli iz okvira backgrounda.
@@ -172,35 +197,39 @@ public class MyGameFrame extends GameFrame {
 		 * 
 		 * Na slican nacin se generise i patrik sa verovatnocom od 0.6% - izvini Patriče
 		 */
-		if(Math.random() < 0.015) {
+		if(Math.random() < 0.000) {
 			KrabbyPatty kp = new KrabbyPatty();
-			kp.setId(index);
+			kp.setId(indexKp);
 			kp.setPosY(0);
 			double x = Math.random()*(sizeX - 50) + 20 ;
 			kp.setPosX((float)x);
 			pljeskavice.add(kp);
-			index++;
+			indexKp++;
 		}
-		if(Math.random() < 0.006) {
+		if(Math.random() < 0.002) {
 			PatrickSalvation p = new PatrickSalvation();
 			p.angle = (float)(Math.random() * Math.PI * 2.0);
 			p.rot = (float)(Math.random() - 0.5) * 0.3f;
-			
+			p.setId(indexP);
+			indexP++;
 			if(Math.random() < 0.5){
 				p.setType(0);
 			}
 			else{
 				p.setType(1);
 			}
-			p.setId(indexP);
 			p.setPosY(-200);
 			double x = Math.random()*sizeX;
 			p.setPosX((float)x);
 			patricks.add(p);
-			indexP++;
 		}
 		for(PatrickSalvation p : patricks) {
-			p.posY += 5;
+			if(p.posY > sizeY) {
+				p.setDead();
+				patricks.remove(p.getId());
+			}
+			System.out.println(p.posX + "|"+  p.posY);
+			p.posY += 3;
 			if(p.getType() == 1){
 				p.angle += p.rot;
 				p.rot *= 0.99f;
@@ -214,12 +243,13 @@ public class MyGameFrame extends GameFrame {
 		for(KrabbyPatty kp : pljeskavice) {
 			kp.posY += 3;
 		}
-		
+	}
+		else {}
 	}
 
 	@Override
 	public void handleMouseDown(int x, int y, GFMouseButton button) {
-		// TODO Auto-generated method stub
+		startGame = true;
 
 	}
 

@@ -5,7 +5,12 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 
 import rafgfxlib.*;
-
+/**
+ * 
+ * Spritesheet nad kojim primenjujemo izmene iz interfejsa da bi prikazali SundjerBoba koji se nalazi u sheet-u u raznim bojama.
+ * @author lalicmarko
+ *
+ */
 public class SpriteSheet implements ImageModifications {
 
 	private BufferedImage sheet;

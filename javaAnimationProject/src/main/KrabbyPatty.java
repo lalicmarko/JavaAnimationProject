@@ -6,7 +6,8 @@ import java.awt.image.WritableRaster;
 import rafgfxlib.Util;
 /**
  * 
- * @author Demiurg
+ * @author lalicmarko
+ * Cuva sve neophodne informacije nad objektom KrubbyPatty.
  * Types of KrabbyPatty: "Normal", "Gray", "Contrast", "Negative", "Poster"
  *
  */

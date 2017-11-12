@@ -5,7 +5,11 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 
 import rafgfxlib.Util;
-
+/**
+ * Cuva informacije o objektu unutar SpriteSheeta, odnosno bavi se njegovim kretanjem.
+ * @author lalicmarko
+ *
+ */
 public class AnimatedEntity
 {
 	private int posX, posY;
@@ -83,7 +87,6 @@ public class AnimatedEntity
 	{
 		posX += movX;
 		posY += movY;
-		//if(posX >= 700) posX = -100;
 	}
 	public SpriteSheet getMySheet() {
 		return mySheet;

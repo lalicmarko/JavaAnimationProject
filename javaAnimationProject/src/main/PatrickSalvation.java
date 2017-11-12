@@ -3,8 +3,12 @@ package main;
 import java.awt.image.BufferedImage;
 
 import rafgfxlib.Util;
-
-public class PatrickSalvation implements ImageModifications{
+/**
+ * Klasa Patrik cuva informacije potrebne za generisanje jednog Patrika
+ * @author lalicmarko
+ *
+ */
+public class PatrickSalvation {
 
 	public float posX;
 	public float posY;
@@ -16,25 +20,7 @@ public class PatrickSalvation implements ImageModifications{
 	public BufferedImage img = Util.loadImage("/res/patrickStar.png");
 	
 	public PatrickSalvation() {
-		
-	}
-	
-	@Override
-	public void doContrast() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void doNegative() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void doGrayscale() {
-		// TODO Auto-generated method stub
-		
+		this.alive = true;
 	}
 	public int getId() {
 		return id;
@@ -66,11 +52,9 @@ public class PatrickSalvation implements ImageModifications{
 	public void setType(int type) {
 		this.type = type;
 	}
-
-	@Override
-	public void doPosterize() {
-		// TODO Auto-generated method stub
-		
+	public void setDead() {
+		if(alive==true) {
+			this.alive = false;	
+		}
 	}
-
 }
